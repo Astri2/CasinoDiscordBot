@@ -1,0 +1,26 @@
+
+plugins {
+    id 'application'
+}
+
+version '1.0'
+
+repositories {
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'net.dv8tion', name: 'JDA', version: '4.2.1_255'
+    implementation group: 'io.github.cdimascio', name: 'java-dotenv', version : '5.2.2'
+    implementation group: 'org.menudocs', name: 'paste-client-java', version: '1.1.1'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+
