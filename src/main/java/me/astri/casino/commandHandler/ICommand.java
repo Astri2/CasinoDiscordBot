@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
-public interface Command {
+public interface ICommand {
     void handle(CommandContext ctx);
 
     String getName();
@@ -20,6 +20,6 @@ public interface Command {
     }
 
     String getHelp();
-    String getUsage(String command);
+    String getUsage(CommandContext ctx);
 
 }

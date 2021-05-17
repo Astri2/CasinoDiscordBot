@@ -14,7 +14,7 @@ public class CommandListener extends ListenerAdapter {
 
         String prefix = "c!";
         String message = e.getMessage().getContentRaw()
-                .toLowerCase().replaceAll("<@[!]?843441113570344980>",prefix);
+                .toLowerCase().replaceAll("<@[!]?843441113570344980>\\s*",prefix);
 
         if(e.isFromGuild())
             prefix = "c!"; //TODO custom prefix -> db

@@ -1,40 +1,37 @@
 package me.astri.casino.casino;
 
-import me.astri.casino.main.Lang.Language;
-import net.dv8tion.jda.api.entities.Member;
+import me.astri.casino.main.Language;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.HashMap;
 
 public class Player {
-    private static final HashMap<String,Player> playerList = initPlayerList();
+    public static final HashMap<String,Player> playerList = initPlayerList();
     private Language language;
     private final String id;
     private final BankAccount bankAccount;
-    private String name;
 
-    public Player(Language language, String id, String name) {
+    public Player(Language language, String id) {
         this.language = language;
         this.id = id;
         this.bankAccount = new BankAccount();
-        this.name = name;
     }
 
-    public Player(Member member) {
-        this(Language.ENGLISH,member.getId(),member.getEffectiveName());
+    public Player(User user) {
+        this(Language.ENGLISH,user.getId());
     }
 
     public static Player getPlayer(String id) {
         return playerList.get(id);
     }
 
+    public static void addPlayer(Player player) {
+        playerList.put(player.getId(),player);
+    }
+
     //setters
     public Player setLanguage(Language language) {
         this.language = language;
-        return this;
-    }
-    public Player setName(String name) {
-        if(name.isBlank()) throw new IllegalArgumentException("Name may not be blank!");
-        this.name = name;
         return this;
     }
 
@@ -48,15 +45,9 @@ public class Player {
     public BankAccount getBank() {
         return this.bankAccount;
     }
-    public String getName() {
-        return this.name;
-    }
 
     //init
     private static HashMap<String,Player> initPlayerList() {
-        Player p = new Player(Language.ENGLISH,"317236712440856576","astri");
-        HashMap<String,Player> list = new HashMap<>();
-        list.put(p.id,p);
-        return list; //TODO db
+        return new HashMap<>(); //TODO db
     }
 }

@@ -1,13 +1,13 @@
 package me.astri.casino.wheel;
 
 import me.astri.casino.casino.Player;
-import me.astri.casino.commandHandler.Command;
+import me.astri.casino.commandHandler.ICommand;
 import me.astri.casino.commandHandler.CommandContext;
 import me.astri.casino.main.Utils;
 
 import java.util.List;
 
-public class WheelCommand implements Command {
+public class WheelCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         List<String> args = ctx.getArgs();
@@ -55,7 +55,7 @@ public class WheelCommand implements Command {
     }
 
     @Override
-    public String getUsage(String command) {
-        return "c!" + command + " <amount> <betType> <bet>";
+    public String getUsage(CommandContext ctx) {
+        return ctx.getPrefix() + ctx.getCommand() + " <amount> <betType> <bet>";
     }
 }
