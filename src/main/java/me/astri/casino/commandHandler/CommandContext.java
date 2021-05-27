@@ -1,9 +1,9 @@
 package me.astri.casino.commandHandler;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
@@ -19,6 +19,7 @@ public class CommandContext {
     private final MessageReceivedEvent event;
     private final User author;
     private final JDA jda;
+    private final TextChannel channel;
 
     public CommandContext(String command, String prefix, MessageReceivedEvent e) {
         this.command = command;
@@ -28,6 +29,7 @@ public class CommandContext {
         this.event = e;
         this.author = e.getAuthor();
         this.jda = e.getJDA();
+        this.channel = e.getTextChannel();
     }
 
     public String getCommand() {
@@ -56,6 +58,10 @@ public class CommandContext {
 
     public JDA getJda() {
         return this.jda;
+    }
+
+    public TextChannel getChannel() {
+        return  this.channel;
     }
 
 
