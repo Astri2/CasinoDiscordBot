@@ -1,5 +1,6 @@
 package me.astri.casino.commandHandler;
 
+import me.astri.casino.Exception.ArgumentException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -21,7 +22,13 @@ public class CommandListener extends ListenerAdapter {
 
         if(message.startsWith(prefix)) {
             String commandName = message.split("\\s+")[0].replace(prefix,"");
-            manager.handle(commandName, prefix, e);
+            try {
+                manager.handle(commandName, prefix, e);
+            }
+            catch(ArgumentException ignored) {}
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

@@ -1,15 +1,17 @@
 package me.astri.casino.casino.commands;
 
+import me.astri.casino.Exception.ArgumentException;
 import me.astri.casino.casino.Player;
 import me.astri.casino.commandHandler.CommandContext;
 import me.astri.casino.commandHandler.ICommand;
+import me.astri.casino.main.Utils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.time.Instant;
 import java.util.List;
 
-public class Balance implements ICommand {
+public class BalanceCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         String id;
@@ -24,12 +26,7 @@ public class Balance implements ICommand {
             name = ctx.getAuthor().getName();
         }
 
-        long bal;
-        Player player = Player.getPlayer(id);
-        if(player != null)
-            bal = Player.getPlayer(id).getBank().getBalance();
-        else throw new IllegalArgumentException("this user has no casino account!");
-
+        long bal = Player.getPlayer(id).getBank().getBalance();
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setAuthor(name + "'s balance : " + bal + "$",null,ctx.getAuthor().getAvatarUrl());

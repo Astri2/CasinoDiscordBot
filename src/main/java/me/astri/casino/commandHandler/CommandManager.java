@@ -1,9 +1,10 @@
 package me.astri.casino.commandHandler;
 
-import me.astri.casino.casino.commands.Balance;
-import me.astri.casino.casino.commands.ForceRegister;
-import me.astri.casino.casino.commands.Register;
-import me.astri.casino.casino.commands.StaffGive;
+import me.astri.casino.Exception.ArgumentException;
+import me.astri.casino.casino.commands.BalanceCommand;
+import me.astri.casino.casino.commands.StaffGiveCommand;
+import me.astri.casino.commands.LangCommand;
+import me.astri.casino.main.SandboxCommand;
 import me.astri.casino.wheel.WheelCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -15,10 +16,10 @@ public class CommandManager {
 
     public CommandManager() {
         addCommand(new WheelCommand());
-        addCommand(new Balance());
-        addCommand(new Register());
-        addCommand(new ForceRegister());
-        addCommand(new StaffGive());
+        addCommand(new BalanceCommand());
+        addCommand(new StaffGiveCommand());
+        addCommand(new SandboxCommand());
+        addCommand(new LangCommand());
     }
 
     private void addCommand(ICommand cmd) {
@@ -40,7 +41,7 @@ public class CommandManager {
         return null;
     }
 
-    void handle(String commandName, String prefix, MessageReceivedEvent e) {
+    void handle(String commandName, String prefix, MessageReceivedEvent e) throws ArgumentException {
         ICommand cmd = getICommand(commandName);
         if(cmd == null)
             return;

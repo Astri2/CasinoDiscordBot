@@ -1,11 +1,12 @@
 package me.astri.casino.commandHandler;
 
+import me.astri.casino.Exception.ArgumentException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
 public interface ICommand {
-    void handle(CommandContext ctx);
+    void handle(CommandContext ctx) throws ArgumentException;
 
     String getName();
     default List<String> getAlias() {
@@ -21,5 +22,4 @@ public interface ICommand {
 
     String getHelp();
     String getUsage(CommandContext ctx);
-
 }

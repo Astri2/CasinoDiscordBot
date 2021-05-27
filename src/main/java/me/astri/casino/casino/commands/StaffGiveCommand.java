@@ -12,17 +12,17 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.time.Instant;
 import java.util.List;
 
-public class StaffGive implements ICommand {
+public class StaffGiveCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
         if(ctx.getMessage().getMentionedUsers().isEmpty())
             throw new IllegalArgumentException("No user found");
+        //else
         User user = ctx.getMessage().getMentionedUsers().get(0);
-        if(Player.getPlayer(user.getId()) == null)
-            throw new IllegalArgumentException("User not registered, use forceRegister!");
-        if(ctx.getArgs().size() < 2 || !Utils.areNumbers(ctx.getArgs().get(1)) || Integer.parseInt(ctx.getArgs().get(1)) < 0)
+        if(ctx.getArgs().size() < 2 || !Utils.areNumbers(ctx.getArgs().get(1)) || Long.parseLong(ctx.getArgs().get(1)) < 0)
             throw new IllegalArgumentException("amount must be positive number");
-        long amount = Integer.parseInt(ctx.getArgs().get(1));
+        //else
+        long amount = Long.parseLong(ctx.getArgs().get(1));
         Player.getPlayer(user.getId()).getBank().add(amount);
 
         EmbedBuilder eb = new EmbedBuilder();

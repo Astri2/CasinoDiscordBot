@@ -1,33 +1,34 @@
-package me.astri.casino.casino.commands;
+package me.astri.casino.main;
 
-import me.astri.casino.casino.Player;
 import me.astri.casino.commandHandler.CommandContext;
 import me.astri.casino.commandHandler.ICommand;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
-public class Register implements ICommand {
+public class SandboxCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) {
-        if(Player.getPlayer(ctx.getAuthor().getId()) != null)
-            throw new IllegalArgumentException("you are already registered!");
-        Player.addPlayer(new Player(ctx.getAuthor()));
-        ctx.reply("👍").queue();
     }
 
     @Override
     public String getName() {
-        return "register";
+        return "test";
     }
 
     @Override
     public List<String> getAlias() {
-        return List.of("r");
+        return List.of("sandbox");
+    }
+
+    @Override
+    public Boolean hasPermission(MessageReceivedEvent e) {
+        return (e.getMember().getId().equalsIgnoreCase(Config.get("OWNER_ID")));
     }
 
     @Override
     public String getHelp() {
-        return "register oneself";
+        return "used to experiment things";
     }
 
     @Override

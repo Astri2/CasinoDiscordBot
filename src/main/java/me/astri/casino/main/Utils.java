@@ -1,14 +1,18 @@
 package me.astri.casino.main;
 
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Utils {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean areNumbers(String input) {
         if(input.startsWith("-")) input = input.replaceFirst("-","");
         for(char c : input.toCharArray()) {
@@ -25,14 +29,30 @@ public class Utils {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
             while ((line = br.readLine()) != null) {
+                System.out.println(line);
                 if(line.startsWith("#")) continue;
                 line = line.replaceAll("([ ]*,[ ]*)",",");
                 String[] values = line.split(",");
                 records.add(Arrays.stream(values).toList());
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("=========");
         return records;
+    }
+
+    public static void addReactions(Message message, String ... reactions) {
+        Arrays.stream(reactions).forEach(reaction -> message.addReaction(reaction).queue());
+    }
+
+    public static boolean hasBotReacted(MessageReactionAddEvent e) {
+        AtomicBoolean bool = new AtomicBoolean(false);
+        e.getReaction().retrieveUsers().complete().forEach(user -> {
+            if(user.equals(e.getJDA().getSelfUser()))
+                bool.set(true);
+        });
+        return bool.get();
     }
 }

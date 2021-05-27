@@ -9,18 +9,24 @@ public class Bet {
 
     private final String url;
     private final int multiplier;
-    private final ArrayList<Integer> issues = new ArrayList<>();
+    private final ArrayList<Long> issues;
 
     public Bet(List<String> args) {
+        issues = new ArrayList<>();
         this.url = args.get(1);
         this.multiplier = Integer.parseInt(args.get(2));
-        Arrays.stream(args.get(3).split("/")).forEach(i -> issues.add(Integer.parseInt(i)));
+        Arrays.stream(args.get(3).split("/")).forEach(i -> issues.add(Long.parseLong(i)));
+    }
+
+    public Bet(Bet bet) {
+        this.url = bet.url;
+        this.multiplier = bet.multiplier;
+        this.issues = bet.issues;
     }
 
     public static HashMap<String, Bet> initBets() {
-        ArrayList<List<String>> CSVBets = Utils.readCSV("WHEEL_BETS");
         HashMap<String,Bet> betList = new HashMap<>();
-        for(List<String> args : CSVBets) {
+        for(List<String> args : Utils.readCSV("WHEEL_BETS")) {
             betList.put(args.get(0),new Bet(args));
         }
         return betList;
@@ -38,7 +44,7 @@ public class Bet {
         return this.multiplier;
     }
 
-    public ArrayList<Integer> getIssues() {
+    public ArrayList<Long> getIssues() {
         return this.issues;
     }
 }

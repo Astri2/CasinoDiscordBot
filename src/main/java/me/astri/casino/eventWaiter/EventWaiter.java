@@ -24,6 +24,8 @@ public class EventWaiter implements EventListener {
                         waiter.getAction().accept(new WaiterAction<>(e,waiter.getId()));
                         if (waiter.getAutoRemove())
                             toDelete.add(waiter);
+                    } else {
+                        waiter.getFailureAction().accept(new WaiterAction<>(e,waiter.getId()));
                     }
                 });
                 waiterMap.get(e.getClass()).removeAll(toDelete);
@@ -44,16 +46,18 @@ public class EventWaiter implements EventListener {
                     return v;
                 });
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(waiterMap.get(waiter.getEventType()).remove(waiter) && waiter.getTimeoutAction() != null) { //if waiter was in the list && there is a timeoutAction
-                   waiter.getTimeoutAction().run();
-                   unregister(waiter);
+        if(waiterToRegister.getExpirationTime() != 0) { //if = 0, no auto expiration
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(waiterMap.get(waiter.getEventType()).remove(waiter) && waiter.getTimeoutAction() != null) { //if waiter was in the list && there is a timeoutAction
+                        waiter.getTimeoutAction().run();
+                        unregister(waiter);
+                    }
                 }
-            }
-        }, TimeUnit.MILLISECONDS.convert(waiter.getExpirationTime(),waiter.getTimeUnit()));
+            }, TimeUnit.MILLISECONDS.convert(waiter.getExpirationTime(),waiter.getTimeUnit()));
+        }
     }
 
     public static void unregister(Waiter<GenericEvent> waiter) {

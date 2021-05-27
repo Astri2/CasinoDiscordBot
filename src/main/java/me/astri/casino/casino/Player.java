@@ -1,42 +1,40 @@
 package me.astri.casino.casino;
 
-import me.astri.casino.main.Language;
-import net.dv8tion.jda.api.entities.User;
+import me.astri.casino.main.Lang;
 
 import java.util.HashMap;
 
 public class Player {
     public static final HashMap<String,Player> playerList = initPlayerList();
-    private Language language;
+
+    private Lang language;
     private final String id;
     private final BankAccount bankAccount;
 
-    public Player(Language language, String id) {
-        this.language = language;
+    public Player(String id) {
+        this.language = Lang.ENGLISH;
         this.id = id;
         this.bankAccount = new BankAccount();
     }
 
-    public Player(User user) {
-        this(Language.ENGLISH,user.getId());
-    }
-
     public static Player getPlayer(String id) {
-        return playerList.get(id);
-    }
-
-    public static void addPlayer(Player player) {
-        playerList.put(player.getId(),player);
+        Player player;
+        if(playerList.get(id) == null) {
+            player = new Player(id);
+            playerList.put(id, player);
+        } else
+            player = playerList.get(id);
+        return player;
     }
 
     //setters
-    public Player setLanguage(Language language) {
+    public Player setLanguage(Lang language) {
         this.language = language;
         return this;
     }
 
     //getters
-    public Language getLanguage() {
+    public Lang getLang() {
         return this.language;
     }
     public String getId() {

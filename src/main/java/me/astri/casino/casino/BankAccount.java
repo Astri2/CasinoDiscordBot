@@ -7,12 +7,11 @@ public class BankAccount {
         this.balance = 500;
     }
 
-    public boolean withdraw(long value) {
+    public void withdraw(long value) {
         if(value <= 0) throw new IllegalArgumentException("Value must be positive");
         if(value > balance)
-            return false;
+            throw new IllegalArgumentException("You don't have enough $");
         this.balance -= value;
-        return true;
     }
 
     public long getBalance() {

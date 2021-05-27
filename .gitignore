@@ -3,3 +3,4 @@
 build/
 out/
 .env
+src/main/java/me/astri/casino/main/Sandbox.java
